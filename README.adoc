@@ -49,33 +49,35 @@ For more information, refer to the link:https://docs.cloudbees.com/docs/cloudbee
   }
 ]
 ----
-[cols="3a,3a,3a",options="header"]
+
+[cols="2a,1a,1a,3a",options="header"]
 .Specification for Dispatch Request JSON
 |===
+
 | Field
-| Data Type
+| Data type
 | Required
 | Description
 
-| component_id
+| `component_id`
 | String
 | Yes
-| The ID of the component containing the workflow (with a manual trigger) to run. Locate the component_id in your browser address bar, displayed as <COMPONENT_ID> in the URL: https://cloudbees.io/orgs/<YOUR_ORGANIZATION>/components/runs?componentId=<COMPONENT_ID>&organizationId=<ORGANIZATION_ID>.
+| The ID of the component containing the workflow (with a manual trigger) to run. Locate the component_id in your browser address bar, displayed as <COMPONENT_ID> in the URL: `https://cloudbees.io/orgs/<YOUR_ORGANIZATION>/components/runs?componentId=<COMPONENT_ID>&organizationId=<ORGANIZATION_ID>`
 
-| branch_name
+| `branch_name`
 | String
 | Yes
 | The branch name containing the workflow to dispatch.
 
-| workflow_file_name
+| `workflow_file_name`
 | String
 | Yes
 | The name of the workflow file to dispatch.
 
-| inputs
-| Map (String, String)
+| `inputs`
+| Object
 | No
-| Input parameters to be passed to dispatch the workflow. Represented as key-value pairs, where keys and values are strings.
+| Input parameters to be passed to dispatch the workflow. Represented as map(key-value pairs), where keys and values are strings.
 
 |===
 
