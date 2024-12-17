@@ -1,0 +1,28 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: Dispatch Workflows
+inputs:
+  workflows-dispatch-file:
+    description: "Path to the file containing workflow dispatch requests"
+    required: true
+  token:
+    description: "Authorization token to authenticate workflow dispatch requests. It is recommended to pass the token as a secret reference to ensure security."
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - id: run-workflow-dispatch-action
+      name: "Trigger Workflows"
+      uses: docker://020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/workflow-dispatch-actions:CBP-7785-v2-93dde3d306bba17cffcfbbd2ca678e0416d78822 
+      shell: sh
+      env:
+        RUN_ID: ${{ cloudbees.run_id }}
+        STEP_ID: ${{ step.internal.id }}
+        JOB_ID: ${{ job.id }}
+        DNS_URL: ${{ cloudbees.api.url }}
+        JWT_TOKEN: ${{ cloudbees.api.token }}
+      run: |
+        echo "RUN_ID: $RUN_ID"
+        cd /app
+        ./workflow-dispatcher dispatch -i '{"workflow_dispatch_requests_file":"${{ inputs.workflows-dispatch-file }}","token":"${{ inputs.token }}"}'

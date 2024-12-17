@@ -1,0 +1,103 @@
+= CloudBees action: Dispatch Workflows
+
+Use this action to dispatch multiple workflows in CloudBees Platform.
+
+== Prerequisites
+This action requires a Personal Access Token (PAT) to dispatch workflows. You must generate a PAT in the CloudBees Platform before invoking the Dispatch Workflows action. 
+For more information, refer to the link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token#generate[Personal Access Tokens documentation].
+
+== Inputs
+
+[cols="2a,1a,1a,3a",options="header"]
+.Input details
+|===
+
+| Input name
+| Data type
+| Required
+| Description
+
+| `workflows-dispatch-file`
+| String
+| Yes
+| Path to the JSON file containing workflow dispatch requests.
+
+| `token`
+| String
+| Yes
+| Authorization token to authenticate workflow dispatch requests. It is recommended to pass the token as a secret reference to ensure security.
+
+|===
+
+== Example Dispatch Request JSON File
+[source,json]
+----
+[
+  {
+    "component_id": "b3214b60-fc7d-4839-b84d-4a4e69bb9a36",
+    "branch_name": "branch-1",
+    "workflow_file_name": "workflow-1.yaml",
+    "inputs": {
+      "testkey1": "value",
+      "testkey2": "50"
+    }
+  },
+  {
+    "component_id": "1bf5c9bf-3a88-41c1-a568-138c8b2a7e38",
+    "branch_name": "branch-2",
+    "workflow_file_name": "workflow-2.yaml",
+  }
+]
+----
+[cols="3a,3a,3a",options="header"]
+.Specification for Dispatch Request JSON
+|===
+| Field
+| Data Type
+| Required
+| Description
+
+| component_id
+| String
+| Yes
+| The ID of the component containing the workflow (with a manual trigger) to run. Locate the component_id in your browser address bar, displayed as <COMPONENT_ID> in the URL: https://cloudbees.io/orgs/<YOUR_ORGANIZATION>/components/runs?componentId=<COMPONENT_ID>&organizationId=<ORGANIZATION_ID>.
+
+| branch_name
+| String
+| Yes
+| The branch name containing the workflow to dispatch.
+
+| workflow_file_name
+| String
+| Yes
+| The name of the workflow file to dispatch.
+
+| inputs
+| Map (String, String)
+| No
+| Input parameters to be passed to dispatch the workflow. Represented as key-value pairs, where keys and values are strings.
+
+|===
+
+== Usage example
+In your YAML file, to dispatch workflows, add:
+
+[source,yaml]
+----
+    - name: Dispatch Workflows
+      uses: cloudbees-io/workflows-dispatch@v1
+      with:
+        workflows-dispatch-file: dispatch_requests.json
+        token: "${{ secrets.TOKEN }}"
+
+----
+
+== License
+
+This code is made available under the 
+link:https://opensource.org/license/mit/[MIT license].
+
+== References
+
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
