@@ -13,8 +13,8 @@ runs:
   using: "composite"
   steps:
     - id: run-workflow-dispatch-action
-      name: "Trigger Workflows"
-      uses: docker://020229604682.dkr.ecr.us-east-1.amazonaws.com/actions/workflow-dispatch-actions:main-26bfbcab5e14a833b364b638a3ce5f1d04a7f3a1
+      name: "Dispatch Workflows"
+      uses: docker://020229604682.dkr.ecr.us-east-1.amazonaws.com/actions/workflow-dispatch-actions:main-1adbc76a58a21e3d52ffd16278142c699ff818bf
       shell: sh
       env:
         RUN_ID: ${{ cloudbees.run_id }}
